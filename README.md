@@ -1,27 +1,38 @@
 # 🎓 Student Academic GPA & Dropout Risk Predictor
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://student-success-predictorr.streamlit.app/)
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15+-orange.svg)](https://www.tensorflow.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+> 🚀 **Live Interactive Demo:** [https://student-success-predictorr.streamlit.app/](https://student-success-predictorr.streamlit.app/)
+
 An end-to-end Machine Learning and Deep Learning system designed to predict students' future Grade Point Average (GPA), assess their probability of dropping out, and classify their overall academic performance tier simultaneously using a **Multi-Task Deep Neural Network (MT-DNN)**.
 
-Featuring an interactive **Streamlit** dashboard ready for one-click deployment on **Streamlit Community Cloud** or local execution.
+Featuring an interactive **Streamlit** dashboard deployed and running live on **Streamlit Community Cloud**.
 
 ---
 
 ## 📌 Table of Contents
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Multi-Task Model Architecture](#multi-task-model-architecture)
-- [Dataset Characteristics](#dataset-characteristics)
-- [Model Performance](#model-performance)
-- [Project Directory Structure](#project-directory-structure)
-- [Getting Started Locally](#getting-started-locally)
-- [Deployment on Streamlit Community Cloud](#deployment-on-streamlit-community-cloud)
-- [Technologies Used](#technologies-used)
-- [License](#license)
+- [Live Demo](#-live-demo)
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Multi-Task Model Architecture](#-multi-task-model-architecture)
+- [Dataset Characteristics](#-dataset-characteristics)
+- [Model Performance](#-model-performance)
+- [Project Directory Structure](#-project-directory-structure)
+- [Getting Started Locally](#-getting-started-locally)
+- [Deployment on Streamlit Community Cloud](#-deployment-on-streamlit-community-cloud)
+- [Technologies Used](#-technologies-used)
+- [License](#-license)
+
+---
+
+## 🌐 Live Demo
+
+The production application is deployed and publicly accessible 24/7 on Streamlit Community Cloud:
+
+👉 **[Launch Live Web App](https://student-success-predictorr.streamlit.app/)**
 
 ---
 
@@ -32,7 +43,7 @@ Student retention and timely academic intervention are critical challenges in hi
 This repository provides:
 1. **Synthetic Data Generation Engine**: Creates realistic datasets combining demographic data, academic histories, and detailed Learning Management System (LMS) engagement logs.
 2. **Multi-Output Deep Learning Pipeline**: A shared neural network backbone that branches into three specialized prediction heads.
-3. **Production Web Application**: A bilingual-friendly, RTL-styled Streamlit interface with interactive Plotly visual gauges, preset student profiles, and actionable advising recommendations.
+3. **Production Web Application**: A responsive Streamlit interface with interactive Plotly visual gauges, preset student profiles, and actionable advising recommendations.
 
 ---
 
@@ -160,8 +171,8 @@ predicting-student-gpa-dropout-risk/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/predicting-student-gpa-dropout-risk.git
-cd predicting-student-gpa-dropout-risk
+git clone https://github.com/Amin-Ezz/student-success-predictor.git
+cd student-success-predictor
 ```
 
 ### 2. Set Up a Virtual Environment
@@ -212,10 +223,12 @@ git push -u origin main
 ### Step 2: Connect to Streamlit Community Cloud
 1. Go to **[share.streamlit.io](https://share.streamlit.io)** and log in with your GitHub account.
 2. Click **"New app"**.
-3. Select your repository: `YOUR_USERNAME/YOUR_REPOSITORY_NAME`.
+3. Select your repository: `Amin-Ezz/student-success-predictor`.
 4. Set **Branch**: `main`.
 5. Set **Main file path**: `app.py`.
 6. Click **"Deploy!"**.
+
+You can view the live deployment here: **[https://student-success-predictorr.streamlit.app/](https://student-success-predictorr.streamlit.app/)**
 
 > 💡 **Why deployment is instantaneous:**
 > Because the trained neural network model and metadata are pre-packaged in the `artifacts/` directory, Streamlit Cloud will launch directly without requiring GPU/CPU training cycles or risking memory limit timeouts!

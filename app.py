@@ -14,10 +14,10 @@ import streamlit as st
 from tensorflow.keras.models import load_model
 
 # ==========================================================
-# Page Configuration & Professional Styling
+# Page Configuration & Clean English Typography
 # ==========================================================
 st.set_page_config(
-    page_title="سامانه پیش‌بینی وضعیت تحصیلی و ریسک انصراف دانشجو",
+    page_title="Student Academic GPA & Dropout Risk Predictor",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -26,16 +26,10 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     html, body, [class*="css"], [class*="st-"] {
-        font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
-    /* RTL Layout for Persian content */
-    .rtl-block {
-        direction: rtl;
-        text-align: right;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     /* Card styling */
@@ -48,38 +42,33 @@ st.markdown(
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
-    /* Alert / Recommendation Box */
+    /* Advisory / Recommendation Boxes */
     .recommendation-box {
-        background-color: #eff6ff;
-        border-right: 4px solid #2563eb;
+        background-color: #f0fdf4;
+        border-left: 4px solid #16a34a;
         border-radius: 8px;
-        padding: 14px 18px;
-        margin-top: 15px;
-        color: #1e3a8a;
-        direction: rtl;
-        text-align: right;
+        padding: 16px 20px;
+        margin-top: 16px;
+        color: #166534;
     }
     
     .danger-box {
         background-color: #fef2f2;
-        border-right: 4px solid #dc2626;
+        border-left: 4px solid #dc2626;
         border-radius: 8px;
-        padding: 14px 18px;
-        margin-top: 15px;
+        padding: 16px 20px;
+        margin-top: 16px;
         color: #991b1b;
-        direction: rtl;
-        text-align: right;
     }
 
     [data-testid="stMetricLabel"] {
-        direction: rtl;
-        text-align: right;
         font-size: 0.9rem;
+        font-weight: 500;
+        color: #64748b;
     }
     [data-testid="stMetricValue"] {
-        direction: ltr;
-        text-align: right;
         font-weight: 700;
+        color: #0f172a;
     }
     </style>
     """,
@@ -89,7 +78,7 @@ st.markdown(
 ARTIFACTS_DIR = os.path.join(os.path.dirname(__file__), "artifacts")
 
 
-@st.cache_resource(show_spinner="در حال بارگذاری مدل یادگیری عمیق...")
+@st.cache_resource(show_spinner="Loading deep learning model and pre-trained artifacts...")
 def load_all_artifacts():
     """Load pre-trained model and metadata with cached resource."""
     model_path = os.path.join(ARTIFACTS_DIR, "model.keras")
@@ -125,8 +114,8 @@ artifacts = load_all_artifacts()
 
 if artifacts is None:
     st.error(
-        "⚠️ فایل‌های مدل و آرتیفکت‌ها یافت نشدند.\n\n"
-        "برای تولید آرتیفکت‌ها، لطفاً دستور زیر را در ترمینال اجرا کنید:\n\n"
+        "⚠️ Model artifacts not found.\n\n"
+        "To generate production artifacts, please run the following command in your terminal:\n\n"
         "`python -m src.train`"
     )
     st.stop()
@@ -175,20 +164,20 @@ def make_slider(col_name: str, label: str, section_prefix: str, step: float = No
 
 
 # ==========================================================
-# Sidebar: Presets & Model Info
+# Sidebar: Presets & Model Information
 # ==========================================================
 with st.sidebar:
     st.image(
         "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80",
-        caption="سیستم پایش هوشمند وضعیت تحصیلی دانشجویان",
+        caption="Student Success & Academic Analytics Platform",
         use_container_width=True,
     )
-    st.markdown("### 🎯 پروفایل‌های نمونه (تست سریع)")
-    st.caption("با انتخاب هر پروفایل، ورودی‌ها به صورت خودکار مقادیر فرضی می‌گیرند:")
+    st.markdown("### 🎯 Quick Test Profiles")
+    st.caption("Click a preset profile to automatically populate the input form with simulated student data:")
 
     p_col1, p_col2 = st.columns(2)
     with p_col1:
-        if st.button("🌟 دانشجوی ممتاز", use_container_width=True):
+        if st.button("🌟 High Achiever", use_container_width=True):
             st.session_state["p1_CurrentGPA"] = 18.5
             st.session_state["p2_HighSchoolGPA"] = 19.0
             st.session_state["p2_StudyHoursPerWeek"] = 30
@@ -201,7 +190,7 @@ with st.sidebar:
             st.rerun()
 
     with p_col2:
-        if st.button("⚠️ دانشجوی در خطر", use_container_width=True):
+        if st.button("⚠️ At-Risk Student", use_container_width=True):
             st.session_state["p1_CurrentGPA"] = 10.5
             st.session_state["p2_HighSchoolGPA"] = 11.0
             st.session_state["p2_StudyHoursPerWeek"] = 7
@@ -213,47 +202,49 @@ with st.sidebar:
             st.session_state["p3_ConsecutiveInactiveDays"] = 9
             st.rerun()
 
-    if st.button("🔄 بازنشانی به میانگین‌ها", use_container_width=True):
+    if st.button("🔄 Reset to Defaults", use_container_width=True):
         for k in list(st.session_state.keys()):
             if k.startswith(("p1_", "p2_", "p3_")):
                 del st.session_state[k]
         st.rerun()
 
     st.divider()
-    st.markdown("### ℹ️ درباره پروژه")
+    st.markdown("### ℹ️ About the Project")
     st.info(
-        "این سامانه از یک شبکه عصبی عمیق چندخروجی (Multi-Output DNN) برای پیش‌بینی هم‌زمان "
-        "سه هدف (معدل آینده، خطر ترک تحصیل، و سطح علمی) بهره می‌برد.\n\n"
-        "**توسعه‌داده‌شده برای ارائه پورتفولیو و استقرار روی Streamlit Cloud.**"
+        "This platform employs a **Multi-Task Deep Neural Network (MT-DNN)** to simultaneously forecast "
+        "three essential educational targets:\n\n"
+        "1. **Future Term GPA** (Regression)\n"
+        "2. **Dropout Risk Probability** (Binary Classification)\n"
+        "3. **Overall Academic Performance Tier** (4-Class Classification)\n\n"
+        "[GitHub Repository](https://github.com/Amin-Ezz/student-success-predictor)"
     )
 
 # ==========================================================
 # Main Header & Model Performance Metrics
 # ==========================================================
-st.markdown("<div class='rtl-block'>", unsafe_allow_html=True)
-st.title("🎓 سامانه هوشمند پیش‌بینی وضعیت تحصیلی و ریسک انصراف دانشجو")
+st.title("🎓 Student Academic GPA & Dropout Risk Predictor")
 st.markdown(
-    "با ورود مشخصات آموزشی، فردی و فعالیت در سامانه مجازی، مدل عمیق وضعیت ترم آتی دانشجو را پیش‌بینی می‌کند."
+    "Enter student demographic information, prior academic history, and virtual LMS activity "
+    "to forecast upcoming academic outcomes and evaluate potential dropout risks using deep learning."
 )
-st.markdown("</div>", unsafe_allow_html=True)
 
-with st.expander("📈 مشاهده کارایی و دقت مدل روی مجموعه داده آزمایشی (Test Set)", expanded=False):
+with st.expander("📈 View Model Benchmark Performance on Holdout Test Set (1,000 samples)", expanded=False):
     m_col1, m_col2, m_col3 = st.columns(3)
     with m_col1:
         st.metric(
-            label="ضریب تعیین معدل آینده (R² Score)",
+            label="Future GPA R² Score",
             value=f"{test_metrics['future_gpa']['r2']:.1%}",
             delta=f"MAE: {test_metrics['future_gpa']['mae']:.2f}",
         )
     with m_col2:
         st.metric(
-            label="دقت پیش‌بینی انصراف (Dropout Accuracy)",
+            label="Dropout Prediction Accuracy",
             value=f"{test_metrics['dropout']['accuracy']:.1%}",
             delta=f"F1: {test_metrics['dropout']['f1']:.1%}",
         )
     with m_col3:
         st.metric(
-            label="دقت طبقه‌بندی سطح عملکرد (Academic Tier)",
+            label="Academic Tier Accuracy",
             value=f"{test_metrics['performance']['accuracy']:.1%}",
             delta=f"F1: {test_metrics['performance']['f1']:.1%}",
         )
@@ -264,97 +255,102 @@ st.divider()
 # Input Forms inside Tabs
 # ==========================================================
 tab_personal, tab_academic, tab_online = st.tabs([
-    "👤 اطلاعات فردی و خانوادگی",
-    "📚 عملکرد تحصیلی و سوابق",
-    "💻 فعالیت در سامانه یادگیری آنلاین (LMS)",
+    "👤 Personal & Demographics",
+    "📚 Academic Records & History",
+    "💻 Online LMS Engagement",
 ])
 
 user_inputs = {}
 
 with tab_personal:
-    st.markdown("<div class='rtl-block'><h5>مشخصات فردی و اقتصادی</h5></div>", unsafe_allow_html=True)
+    st.subheader("Demographic & Socioeconomic Background")
     c1, c2 = st.columns(2)
     with c1:
-        user_inputs["Age"] = make_slider("Age", "سن دانشجو", "p1")
+        user_inputs["Age"] = make_slider("Age", "Student Age", "p1")
         user_inputs["Gender"] = st.selectbox(
-            "جنسیت",
+            "Gender",
             [0, 1],
-            format_func=lambda x: "مرد" if x == 1 else "زن",
+            format_func=lambda x: "Male" if x == 1 else "Female",
             key="p1_gender",
         )
         user_inputs["Department"] = st.selectbox(
-            "رشته / دپارتمان",
+            "Academic Department / Major",
             [0, 1, 2, 3, 4],
-            format_func=lambda x: f"دپارتمان مهندسی / علوم {x + 1}",
+            format_func=lambda x: f"Department {x + 1} (Engineering & Science)",
             key="p1_dept",
         )
-        user_inputs["Semester"] = make_slider("Semester", "ترم تحصیلی جاری", "p1")
+        user_inputs["Semester"] = make_slider("Semester", "Current Semester", "p1")
 
     with c2:
         user_inputs["FamilyIncome"] = make_slider(
-            "FamilyIncome", "درآمد تخمینی خانواده (میلیون تومان)", "p1"
+            "FamilyIncome", "Estimated Monthly Family Income Index", "p1"
         )
         user_inputs["ParentEducation"] = st.selectbox(
-            "میزان تحصیلات والدین",
+            "Parent Highest Education Level",
             [0, 1, 2, 3],
-            format_func=lambda x: ["دیپلم یا کمتر", "کاردانی", "کارشناسی", "کارشناسی ارشد و دکتری"][x],
+            format_func=lambda x: [
+                "High School or Less",
+                "Associate Degree",
+                "Bachelor's Degree",
+                "Master's or Ph.D.",
+            ][x],
             index=2,
             key="p1_pedu",
         )
         user_inputs["Scholarship"] = st.selectbox(
-            "وضعیت بورسیه تحصیلی",
+            "Academic Scholarship Status",
             [0, 1],
-            format_func=lambda x: "ندارد" if x == 0 else "دارای بورسیه",
+            format_func=lambda x: "No Scholarship" if x == 0 else "Scholarship Recipient",
             key="p1_schol",
         )
 
 with tab_academic:
-    st.markdown("<div class='rtl-block'><h5>نمرات و سوابق درسی</h5></div>", unsafe_allow_html=True)
+    st.subheader("Prior Academic Performance & Study Habits")
     c1, c2 = st.columns(2)
     with c1:
-        user_inputs["HighSchoolGPA"] = make_slider("HighSchoolGPA", "معدل دیپلم (از ۲۰)", "p2")
-        user_inputs["CurrentGPA"] = make_slider("CurrentGPA", "معدل کل فعلی (از ۲۰)", "p2")
-        user_inputs["StudyHoursPerWeek"] = make_slider("StudyHoursPerWeek", "ساعت مطالعه هفتگی", "p2")
-        user_inputs["SleepHours"] = make_slider("SleepHours", "میانگین ساعت خواب در شبانه‌روز", "p2")
-        user_inputs["AttendanceRate"] = make_slider("AttendanceRate", "نرخ حضور در کلاس‌ها (درصد)", "p2")
-        user_inputs["LibraryVisits"] = make_slider("LibraryVisits", "دفعات مراجعه به کتابخانه در ماه", "p2")
+        user_inputs["HighSchoolGPA"] = make_slider("HighSchoolGPA", "High School GPA (Scale 0-20)", "p2")
+        user_inputs["CurrentGPA"] = make_slider("CurrentGPA", "Current Cumulative GPA (Scale 0-20)", "p2")
+        user_inputs["StudyHoursPerWeek"] = make_slider("StudyHoursPerWeek", "Weekly Study Hours", "p2")
+        user_inputs["SleepHours"] = make_slider("SleepHours", "Average Daily Sleep Hours", "p2")
+        user_inputs["AttendanceRate"] = make_slider("AttendanceRate", "Class Attendance Rate (%)", "p2")
+        user_inputs["LibraryVisits"] = make_slider("LibraryVisits", "Monthly Library Visits", "p2")
 
     with c2:
-        user_inputs["AssignmentAverage"] = make_slider("AssignmentAverage", "میانگین نمرات تکالیف", "p2")
-        user_inputs["QuizAverage"] = make_slider("QuizAverage", "میانگین نمرات کوییزها", "p2")
-        user_inputs["MidtermScore"] = make_slider("MidtermScore", "نمره آزمون میان‌ترم", "p2")
-        user_inputs["ClassParticipation"] = make_slider("ClassParticipation", "نمره مشارکت کلاسی", "p2")
-        user_inputs["PreviousFailures"] = make_slider("PreviousFailures", "تعداد دروس افتاده قبلی", "p2")
-        user_inputs["InternetUsage"] = make_slider("InternetUsage", "ساعت استفاده روزانه از اینترنت (غیردرسی)", "p2")
+        user_inputs["AssignmentAverage"] = make_slider("AssignmentAverage", "Assignment Average Score (%)", "p2")
+        user_inputs["QuizAverage"] = make_slider("QuizAverage", "Quiz Average Score (%)", "p2")
+        user_inputs["MidtermScore"] = make_slider("MidtermScore", "Midterm Exam Score (%)", "p2")
+        user_inputs["ClassParticipation"] = make_slider("ClassParticipation", "Class Participation Score (%)", "p2")
+        user_inputs["PreviousFailures"] = make_slider("PreviousFailures", "Number of Previous Failed Courses", "p2")
+        user_inputs["InternetUsage"] = make_slider("InternetUsage", "Daily Non-Academic Internet Usage (Hours)", "p2")
 
 with tab_online:
-    st.markdown("<div class='rtl-block'><h5>رفتار و فعالیت در سامانه LMS</h5></div>", unsafe_allow_html=True)
+    st.subheader("LMS Platform Engagement & Learning Analytics")
     c1, c2 = st.columns(2)
     with c1:
-        user_inputs["LoginFrequency"] = make_slider("LoginFrequency", "تعداد ورود به سامانه در هفته", "p3")
-        user_inputs["TotalLoginTime"] = make_slider("TotalLoginTime", "مدت زمان حضور در سامانه (دقیقه/هفته)", "p3")
-        user_inputs["VideosWatched"] = make_slider("VideosWatched", "تعداد ویدیوهای آموزشی دیده‌شده", "p3")
-        user_inputs["CompletionRate"] = make_slider("CompletionRate", "درصد تکمیل سرفصل‌های دوره", "p3")
-        user_inputs["AveragePracticeScore"] = make_slider("AveragePracticeScore", "میانگین نمره تمرین‌های آنلاین", "p3")
-        user_inputs["PracticeTestsTaken"] = make_slider("PracticeTestsTaken", "تعداد کوییزهای تمرینی انجام شده", "p3")
-        user_inputs["DownloadedResources"] = make_slider("DownloadedResources", "تعداد جزوات و فایل‌های دانلود شده", "p3")
-        user_inputs["AssignmentSubmissionDelay"] = make_slider("AssignmentSubmissionDelay", "میانگین تاخیر در تحویل تکالیف (روز)", "p3")
-        user_inputs["ConsecutiveInactiveDays"] = make_slider("ConsecutiveInactiveDays", "تعداد روزهای متوالی عدم حضور در سامانه", "p3")
+        user_inputs["LoginFrequency"] = make_slider("LoginFrequency", "Weekly LMS Login Frequency", "p3")
+        user_inputs["TotalLoginTime"] = make_slider("TotalLoginTime", "Total LMS Time (Minutes/Week)", "p3")
+        user_inputs["VideosWatched"] = make_slider("VideosWatched", "Lecture Videos Watched", "p3")
+        user_inputs["CompletionRate"] = make_slider("CompletionRate", "Course Material Completion Rate (%)", "p3")
+        user_inputs["AveragePracticeScore"] = make_slider("AveragePracticeScore", "Online Practice Exam Average (%)", "p3")
+        user_inputs["PracticeTestsTaken"] = make_slider("PracticeTestsTaken", "Number of Practice Tests Taken", "p3")
+        user_inputs["DownloadedResources"] = make_slider("DownloadedResources", "Course Materials & Handouts Downloaded", "p3")
+        user_inputs["AssignmentSubmissionDelay"] = make_slider("AssignmentSubmissionDelay", "Average Assignment Submission Delay (Days)", "p3")
+        user_inputs["ConsecutiveInactiveDays"] = make_slider("ConsecutiveInactiveDays", "Consecutive Inactive Days on LMS", "p3")
 
     with c2:
-        user_inputs["ForumPosts"] = make_slider("ForumPosts", "تعداد پست‌های ارسالی در تالار گفتگو", "p3")
-        user_inputs["QuestionsAsked"] = make_slider("QuestionsAsked", "تعداد سوالات پرسیده شده", "p3")
-        user_inputs["QuestionsAnswered"] = make_slider("QuestionsAnswered", "تعداد پاسخ‌های داده شده به دیگران", "p3")
-        user_inputs["MobileUsage"] = make_slider("MobileUsage", "درصد ورود با تلفن همراه", "p3")
-        user_inputs["DesktopUsage"] = make_slider("DesktopUsage", "درصد ورود با رایانه", "p3")
-        user_inputs["NightStudyPercentage"] = make_slider("NightStudyPercentage", "درصد مطالعه در ساعات شب (۱۲ تا ۶ صبح)", "p3")
-        user_inputs["WeekendStudyPercentage"] = make_slider("WeekendStudyPercentage", "درصد مطالعه در روزهای تعطیل", "p3")
-        user_inputs["AIUsageFrequency"] = make_slider("AIUsageFrequency", "میزان استفاده از ابزارهای هوش مصنوعی", "p3")
-        user_inputs["CourseCompletionTime"] = make_slider("CourseCompletionTime", "زمان تخمینی اتمام دوره (هفته)", "p3")
+        user_inputs["ForumPosts"] = make_slider("ForumPosts", "Discussion Forum Posts Created", "p3")
+        user_inputs["QuestionsAsked"] = make_slider("QuestionsAsked", "Forum Questions Asked", "p3")
+        user_inputs["QuestionsAnswered"] = make_slider("QuestionsAnswered", "Peer Questions Answered", "p3")
+        user_inputs["MobileUsage"] = make_slider("MobileUsage", "Mobile Device Access Ratio (%)", "p3")
+        user_inputs["DesktopUsage"] = make_slider("DesktopUsage", "Desktop / Laptop Access Ratio (%)", "p3")
+        user_inputs["NightStudyPercentage"] = make_slider("NightStudyPercentage", "Night Study Ratio (12 AM - 6 AM) (%)", "p3")
+        user_inputs["WeekendStudyPercentage"] = make_slider("WeekendStudyPercentage", "Weekend Study Ratio (%)", "p3")
+        user_inputs["AIUsageFrequency"] = make_slider("AIUsageFrequency", "AI Learning Tools Usage Frequency", "p3")
+        user_inputs["CourseCompletionTime"] = make_slider("CourseCompletionTime", "Estimated Course Completion Pace (Weeks)", "p3")
         user_inputs["CertificateEarned"] = st.selectbox(
-            "دریافت گواهی پایان دوره",
+            "Course Certificate Earned",
             [0, 1],
-            format_func=lambda x: "خیر" if x == 0 else "بله",
+            format_func=lambda x: "No" if x == 0 else "Yes",
             key="p3_cert",
         )
 
@@ -368,7 +364,7 @@ st.divider()
 # ==========================================================
 col_btn, _ = st.columns([1, 2])
 with col_btn:
-    run_prediction = st.button("🔮 اجرای پیش‌بینی وضعیت دانشجو", type="primary", use_container_width=True)
+    run_prediction = st.button("🔮 Run Academic Risk & Performance Prediction", type="primary", use_container_width=True)
 
 if run_prediction:
     row_features = [user_inputs[c] for c in feature_columns]
@@ -384,9 +380,9 @@ if run_prediction:
     dropout_prob = float(dropout_pred.ravel()[0])
     perf_probs = perf_pred.ravel()
     perf_idx = int(np.argmax(perf_probs))
-    perf_labels = ["ضعیف", "متوسط", "خوب", "عالی"]
+    perf_labels = ["Weak", "Average", "Good", "Excellent"]
 
-    st.markdown("<div class='rtl-block'><h3>📊 نتایج تحلیل و پیش‌بینی هوشمند</h3></div>", unsafe_allow_html=True)
+    st.subheader("📊 Multi-Task Prediction & Assessment Results")
     res1, res2, res3 = st.columns(3)
 
     # 1. Future GPA Gauge
@@ -395,8 +391,8 @@ if run_prediction:
             go.Indicator(
                 mode="gauge+number",
                 value=future_gpa,
-                number={"suffix": " از ۲۰", "valueformat": ".2f"},
-                title={"text": "<b>معدل پیش‌بینی‌شده ترم آتی</b>", "font": {"family": "Vazirmatn", "size": 16}},
+                number={"suffix": " / 20", "valueformat": ".2f"},
+                title={"text": "<b>Predicted Future Term GPA</b>", "font": {"family": "Inter", "size": 16}},
                 gauge={
                     "axis": {"range": [0, 20]},
                     "bar": {"color": "#2563eb"},
@@ -420,14 +416,14 @@ if run_prediction:
     with res2:
         is_high_risk = dropout_prob >= 0.5
         risk_color = "#dc2626" if is_high_risk else "#16a34a"
-        risk_title = "ریسک بالا ⚠️" if is_high_risk else "ریسک پایین ✅"
+        risk_title = "High Risk ⚠️" if is_high_risk else "Low Risk ✅"
 
         risk_fig = go.Figure(
             go.Indicator(
                 mode="gauge+number",
                 value=dropout_prob * 100,
                 number={"suffix": "%", "valueformat": ".1f"},
-                title={"text": f"<b>خطر انصراف از تحصیل: {risk_title}</b>", "font": {"family": "Vazirmatn", "size": 16}},
+                title={"text": f"<b>Dropout Risk: {risk_title}</b>", "font": {"family": "Inter", "size": 16}},
                 gauge={
                     "axis": {"range": [0, 100]},
                     "bar": {"color": risk_color},
@@ -454,8 +450,8 @@ if run_prediction:
             )
         )
         perf_fig.update_layout(
-            title={"text": f"<b>سطح علمی تخمینی: {perf_labels[perf_idx]}</b>", "font": {"family": "Vazirmatn", "size": 16}},
-            xaxis_title="احتمال وقوع (٪)",
+            title={"text": f"<b>Predicted Tier: {perf_labels[perf_idx]}</b>", "font": {"family": "Inter", "size": 16}},
+            xaxis_title="Probability (%)",
             xaxis_range=[0, 115],
             height=290,
             margin=dict(l=25, r=25, t=50, b=15),
@@ -467,8 +463,8 @@ if run_prediction:
         st.markdown(
             f"""
             <div class='danger-box'>
-                <b>⚠️ هشدار تحصیلی:</b> دانشجو دارای ریسک انصراف ({dropout_prob:.1%}) یا افت معدل است.
-                <br><b>اقدامات پیشنهادی مشاور:</b> ارجاع به استاد راهنما، تنظیم برنامه مطالعه هدفمند، افزایش ساعات حضور در سامانه آموزشی، و بررسی عدم فعالیت‌های متوالی.
+                <b>⚠️ Academic Risk Alert:</b> The model identifies an elevated probability of course dropout ({dropout_prob:.1%}) or significant academic decline.
+                <br><b>Advisor Action Plan:</b> Refer the student to an academic advisor, establish a structured weekly tutoring schedule, monitor consecutive inactive days on LMS, and review assignment submission delays.
             </div>
             """,
             unsafe_allow_html=True,
@@ -477,11 +473,11 @@ if run_prediction:
         st.markdown(
             f"""
             <div class='recommendation-box'>
-                <b>✅ وضعیت پایدار:</b> وضعیت تحصیلی دانشجو مطلوب ارزیابی شد. معدل پیش‌بینی‌شده: {future_gpa:.2f} از ۲۰.
-                <br><b>پیشنهاد:</b> ادامه روند مطالعه فعلی و مشارکت مستمر در تالارهای گفتگو و پروژه‌های تکمیلی.
+                <b>✅ Stable Academic Standing:</b> The student shows satisfactory engagement and progress, with an estimated Future GPA of <b>{future_gpa:.2f} / 20</b>.
+                <br><b>Recommendation:</b> Maintain consistent study hours, encourage peer discussions on course forums, and promote advanced learning opportunities.
             </div>
             """,
             unsafe_allow_html=True,
         )
 else:
-    st.info("💡 برای مشاهده نتایج پیش‌بینی، مقادیر فرم بالا را تنظیم کرده یا از دکمه‌های پروفایل در ستون کناری استفاده کرده و بر روی «اجرای پیش‌بینی وضعیت دانشجو» کلیک کنید.")
+    st.info("💡 Adjust the student metrics above or select a preset profile from the sidebar, then click 'Run Academic Risk & Performance Prediction' to generate inferences.")
