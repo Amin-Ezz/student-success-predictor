@@ -1,0 +1,236 @@
+{
+  "StudentID": {
+    "min": 1.0,
+    "max": 5000.0,
+    "mean": 2500.5,
+    "dtype": "int"
+  },
+  "LoginFrequency": {
+    "min": 2.0,
+    "max": 40.0,
+    "mean": 23.29925,
+    "dtype": "float"
+  },
+  "TotalLoginTime": {
+    "min": 20.0,
+    "max": 118.2,
+    "mean": 58.44106,
+    "dtype": "float"
+  },
+  "VideosWatched": {
+    "min": 5.0,
+    "max": 120.0,
+    "mean": 70.0016,
+    "dtype": "int"
+  },
+  "CompletionRate": {
+    "min": 20.0,
+    "max": 100.0,
+    "mean": 69.64896,
+    "dtype": "float"
+  },
+  "ForumPosts": {
+    "min": 0.0,
+    "max": 15.0,
+    "mean": 7.0346,
+    "dtype": "int"
+  },
+  "QuestionsAsked": {
+    "min": 0.0,
+    "max": 15.0,
+    "mean": 5.6374,
+    "dtype": "int"
+  },
+  "QuestionsAnswered": {
+    "min": 0.0,
+    "max": 17.0,
+    "mean": 6.3672,
+    "dtype": "int"
+  },
+  "AssignmentSubmissionDelay": {
+    "min": 0.0,
+    "max": 15.0,
+    "mean": 6.2458599999999995,
+    "dtype": "float"
+  },
+  "DownloadedResources": {
+    "min": 0.0,
+    "max": 60.0,
+    "mean": 38.427,
+    "dtype": "float"
+  },
+  "PracticeTestsTaken": {
+    "min": 0.0,
+    "max": 25.0,
+    "mean": 13.9734,
+    "dtype": "int"
+  },
+  "AveragePracticeScore": {
+    "min": 30.0,
+    "max": 100.0,
+    "mean": 62.79297999999999,
+    "dtype": "float"
+  },
+  "ConsecutiveInactiveDays": {
+    "min": 0.0,
+    "max": 15.0,
+    "mean": 5.06225,
+    "dtype": "float"
+  },
+  "MobileUsage": {
+    "min": 10.0,
+    "max": 100.0,
+    "mean": 64.74296,
+    "dtype": "float"
+  },
+  "DesktopUsage": {
+    "min": 0.0,
+    "max": 96.8,
+    "mean": 35.3489,
+    "dtype": "float"
+  },
+  "NightStudyPercentage": {
+    "min": 0.0,
+    "max": 86.6,
+    "mean": 35.16666,
+    "dtype": "float"
+  },
+  "WeekendStudyPercentage": {
+    "min": 0.0,
+    "max": 76.0,
+    "mean": 30.040239999999997,
+    "dtype": "float"
+  },
+  "AIUsageFrequency": {
+    "min": 0.0,
+    "max": 15.0,
+    "mean": 7.0325,
+    "dtype": "float"
+  },
+  "CourseCompletionTime": {
+    "min": 5.0,
+    "max": 20.0,
+    "mean": 9.43214,
+    "dtype": "float"
+  },
+  "CertificateEarned": {
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.2496,
+    "dtype": "int"
+  },
+  "Age": {
+    "min": 18.0,
+    "max": 29.0,
+    "mean": 23.4422,
+    "dtype": "int"
+  },
+  "Gender": {
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.5058,
+    "dtype": "int"
+  },
+  "Department": {
+    "min": 0.0,
+    "max": 4.0,
+    "mean": 1.9248,
+    "dtype": "int"
+  },
+  "Semester": {
+    "min": 1.0,
+    "max": 8.0,
+    "mean": 4.5362,
+    "dtype": "int"
+  },
+  "FamilyIncome": {
+    "min": 20.0,
+    "max": 120.0,
+    "mean": 60.24725,
+    "dtype": "float"
+  },
+  "ParentEducation": {
+    "min": 0.0,
+    "max": 3.0,
+    "mean": 1.5122,
+    "dtype": "int"
+  },
+  "Scholarship": {
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.2872,
+    "dtype": "int"
+  },
+  "HighSchoolGPA": {
+    "min": 9.32,
+    "max": 20.0,
+    "mean": 16.0803625,
+    "dtype": "float"
+  },
+  "CurrentGPA": {
+    "min": 10.84,
+    "max": 20.0,
+    "mean": 16.66861,
+    "dtype": "float"
+  },
+  "StudyHoursPerWeek": {
+    "min": 5.0,
+    "max": 38.6,
+    "mean": 19.028760000000002,
+    "dtype": "float"
+  },
+  "SleepHours": {
+    "min": 4.0,
+    "max": 9.0,
+    "mean": 7.15302,
+    "dtype": "float"
+  },
+  "InternetUsage": {
+    "min": 1.0,
+    "max": 8.0,
+    "mean": 4.3987,
+    "dtype": "float"
+  },
+  "LibraryVisits": {
+    "min": 0.0,
+    "max": 18.0,
+    "mean": 6.414,
+    "dtype": "int"
+  },
+  "AttendanceRate": {
+    "min": 50.2,
+    "max": 100.0,
+    "mean": 78.46236,
+    "dtype": "float"
+  },
+  "AssignmentAverage": {
+    "min": 57.8,
+    "max": 100.0,
+    "mean": 91.00344,
+    "dtype": "float"
+  },
+  "QuizAverage": {
+    "min": 47.8,
+    "max": 100.0,
+    "mean": 82.051675,
+    "dtype": "float"
+  },
+  "MidtermScore": {
+    "min": 55.4,
+    "max": 100.0,
+    "mean": 83.79,
+    "dtype": "float"
+  },
+  "ClassParticipation": {
+    "min": 37.0,
+    "max": 100.0,
+    "mean": 78.80668,
+    "dtype": "float"
+  },
+  "PreviousFailures": {
+    "min": 0.0,
+    "max": 3.0,
+    "mean": 0.195,
+    "dtype": "int"
+  }
+}
